@@ -40,6 +40,7 @@ android {
     detekt {
         config.setFrom(file("detekt-config.yml"))
         buildUponDefaultConfig = true
+        basePath = rootProject.projectDir.absolutePath
     }
 }
 
