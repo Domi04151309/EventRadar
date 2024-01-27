@@ -9,6 +9,7 @@ import com.example.eventradar.R
 import com.example.eventradar.data.AppDatabase
 import com.example.eventradar.helpers.OutOfScopeDialog
 import com.example.eventradar.helpers.Preferences
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.CoroutineScope
@@ -38,7 +39,21 @@ class LoginActivity : BaseActivity() {
         }
 
         findViewById<Button>(R.id.reset_password).setOnClickListener {
-            OutOfScopeDialog.show(this)
+            MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.forgot_password)
+                .setMessage(R.string.forgot_password_message)
+                .setView(
+                    layoutInflater.inflate(
+                        R.layout.dialog_forgot_password,
+                        findViewById(R.id.root),
+                        false,
+                    ),
+                )
+                .setPositiveButton(R.string.request) { _, _ ->
+                    OutOfScopeDialog.show(this)
+                }
+                .setNegativeButton(R.string.cancel) { _, _ -> }
+                .show()
         }
 
         findViewById<Button>(R.id.google_sign_in_button).setOnClickListener {
