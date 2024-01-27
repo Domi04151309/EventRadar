@@ -11,7 +11,6 @@ import com.example.eventradar.R
 import com.example.eventradar.helpers.OutOfScopeDialog
 import com.example.eventradar.helpers.Preferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.search.SearchBar
 
 /**
@@ -51,18 +50,16 @@ class MainActivity : BaseActivity() {
 
     companion object {
         private fun onAccountClicked(context: Context) {
-            if (Preferences.isLoggedIn(context)) {
-                MaterialAlertDialogBuilder(context).setTitle(R.string.logout)
-                    .setMessage(R.string.logout_summary)
-                    .setPositiveButton(R.string.logout) { _, _ ->
-                        Preferences.setLoggedIn(context, Preferences.NO_ACCOUNT)
-                        context.startActivity(Intent(context, LoginActivity::class.java))
-                    }
-                    .setNegativeButton(R.string.cancel) { _, _ -> }
-                    .show()
-            } else {
-                context.startActivity(Intent(context, LoginActivity::class.java))
-            }
+            context.startActivity(
+                Intent(
+                    context,
+                    if (Preferences.isLoggedIn(context)) {
+                        AccountActivity::class.java
+                    } else {
+                        LoginActivity::class.java
+                    },
+                ),
+            )
         }
 
         /**

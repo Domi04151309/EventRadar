@@ -53,6 +53,12 @@
             android:launchMode="singleTop"
             android:parentActivityName=".activities.MainActivity" />
         <activity
+            android:name=".activities.AccountActivity"
+            android:exported="false"
+            android:label="@string/title_account"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity
             android:name=".activities.EventActivity"
             android:exported="false"
             android:label="@string/title_event"
