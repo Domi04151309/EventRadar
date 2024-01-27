@@ -74,6 +74,10 @@
     <string name="booking_login_required">Sie müssen angemeldet sein, um ein Ticket buchen zu können.</string>
     <string name="calendar_error">"Es ist keine Kalender-App installiert."</string>
 
+    <string name="cancellation">Stornieren</string>
+    <string name="cancellation_message">Möchten Sie Ihr Ticket wirklich stornieren? Bitte geben Sie einen Grund an.</string>
+    <string name="reason">Grund</string>
+
     <string name="currency_format">%1$s €</string>
     <string name="vat_format">%1$s inkl. MwSt.</string>
     <string name="summary_format">%1$s • %2$s</string>

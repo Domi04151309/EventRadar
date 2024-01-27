@@ -16,6 +16,7 @@ import com.example.eventradar.helpers.External
 import com.example.eventradar.helpers.OutOfScopeDialog
 import com.example.eventradar.helpers.Preferences
 import com.example.eventradar.interfaces.RecyclerViewHelperInterface
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
  */
 class TicketActivity : BaseActivity(), RecyclerViewHelperInterface {
     private var ticket: TicketWithEventWithAddress? = null
+    private lateinit var recyclerView: RecyclerView
 
     /**
      * Initialisiert die Ticketaktivität und lädt Ticketdetails in eine Liste.
@@ -47,7 +49,7 @@ class TicketActivity : BaseActivity(), RecyclerViewHelperInterface {
             },
         )
 
-        val recyclerView = findViewById<RecyclerView>(R.id.list)
+        recyclerView = findViewById(R.id.list)
         recyclerView.isNestedScrollingEnabled = false
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = LoadingAdapter()
@@ -98,7 +100,16 @@ class TicketActivity : BaseActivity(), RecyclerViewHelperInterface {
      */
     override fun onItemClicked(position: Int) {
         when (position) {
-            CANCELLATION_ITEM -> OutOfScopeDialog.show(this)
+            CANCELLATION_ITEM ->
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.cancellation)
+                    .setMessage(R.string.cancellation_message)
+                    .setView(layoutInflater.inflate(R.layout.dialog_cancel, recyclerView, false))
+                    .setPositiveButton(R.string.cancellation) { _, _ ->
+                        OutOfScopeDialog.show(this)
+                    }
+                    .setNegativeButton(R.string.cancel) { _, _ -> }
+                    .show()
             LOCATION_ITEM -> External.openMaps(this, ticket?.event?.address ?: error(TICKET_IS_NULL))
             DATE_ITEM -> External.openCalendar(this, ticket?.event?.event ?: error(TICKET_IS_NULL))
         }
