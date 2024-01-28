@@ -59,6 +59,36 @@
             android:launchMode="singleTop"
             android:parentActivityName=".activities.MainActivity" />
         <activity
+            android:name=".activities.DataActivity"
+            android:exported="false"
+            android:label="@string/my_data"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.AccountActivity" />
+        <activity
+            android:name=".activities.PaymentDetailsActivity"
+            android:exported="false"
+            android:label="@string/payment_details"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.AccountActivity" />
+        <activity
+            android:name=".activities.TransactionHistoryActivity"
+            android:exported="false"
+            android:label="@string/transaction_history"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.AccountActivity" />
+        <activity
+            android:name=".activities.ImprintActivity"
+            android:exported="false"
+            android:label="@string/imprint"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.AccountActivity" />
+        <activity
+            android:name=".activities.PrivacyPolicyActivity"
+            android:exported="false"
+            android:label="@string/privacy_policy"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.AccountActivity" />
+        <activity
             android:name=".activities.EventActivity"
             android:exported="false"
             android:label="@string/title_event"

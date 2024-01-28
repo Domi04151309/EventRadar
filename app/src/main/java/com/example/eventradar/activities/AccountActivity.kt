@@ -60,6 +60,22 @@ class AccountActivity : BaseActivity(), RecyclerViewHelperInterface {
      * Reagiert auf Klickereignisse in der Optionsliste.
      */
     override fun onItemClicked(position: Int) {
-        OutOfScopeDialog.show(this)
+        when (position) {
+            MY_DATA_ITEM -> startActivity(Intent(this, DataActivity::class.java))
+            MY_INTERESTS_ITEM -> OutOfScopeDialog.show(this)
+            PAYMENT_DETAILS_ITEM -> startActivity(Intent(this, PaymentDetailsActivity::class.java))
+            TRANSACTION_HISTORY_ITEM -> startActivity(Intent(this, TransactionHistoryActivity::class.java))
+            IMPRINT_ITEM -> startActivity(Intent(this, ImprintActivity::class.java))
+            PRIVACY_POLICY_ITEM -> startActivity(Intent(this, PrivacyPolicyActivity::class.java))
+        }
+    }
+
+    companion object {
+        private const val MY_DATA_ITEM = 0
+        private const val MY_INTERESTS_ITEM = 1
+        private const val PAYMENT_DETAILS_ITEM = 2
+        private const val TRANSACTION_HISTORY_ITEM = 3
+        private const val IMPRINT_ITEM = 4
+        private const val PRIVACY_POLICY_ITEM = 5
     }
 }
