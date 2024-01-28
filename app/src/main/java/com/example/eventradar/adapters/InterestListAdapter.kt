@@ -58,15 +58,27 @@ class InterestListAdapter(
     override fun getItemCount(): Int = items.size
 
     /**
-     * Gibt die IDs der ausgewählten Interessen zurück.
+     * Ändert den Auswahlzustand am gegebenen Index.
      */
-    fun setSelected(
-        position: Int,
-        state: Boolean,
-    ) {
-        states[position] = state
+    fun toggle(position: Int) {
+        states[position] = !states[position]
         notifyItemChanged(position)
     }
+
+    /**
+     * Selektiert die gegebenen Interessens-Ids.
+     */
+    fun select(interestIds: List<Long>) {
+        for (interestId in interestIds) {
+            val index = items.indexOfFirst { it.id == interestId }
+            if (index > -1 && index < states.size) states[index] = true
+        }
+    }
+
+    /**
+     * Gibt die ausgewählten Interessen zurück.
+     */
+    fun getSelected(): List<Interest> = items.filterIndexed { index, _ -> states[index] }
 
     /**
      * ViewHolder für die Darstellung einer Interesse.

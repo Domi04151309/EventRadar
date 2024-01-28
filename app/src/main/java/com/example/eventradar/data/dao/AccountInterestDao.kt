@@ -21,4 +21,10 @@ interface AccountInterestDao {
      */
     @Query("SELECT * FROM account_interest WHERE account_id = :userId")
     suspend fun getUserInterests(userId: Long): List<AccountInterest>
+
+    /**
+     * Löscht alle Interessen eines Benutzers aus der Datenbank.
+     */
+    @Query("DELETE FROM account_interest WHERE account_id = :userId")
+    suspend fun deleteUserInterests(userId: Long)
 }

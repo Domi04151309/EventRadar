@@ -2,6 +2,7 @@ package com.example.eventradar.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventradar.R
@@ -22,7 +23,6 @@ import kotlinx.coroutines.launch
  */
 class InterestsActivity : BaseActivity(), RecyclerViewHelperInterface {
     private var allInterests = listOf<Interest>()
-    private var selectedInterests = mutableListOf<Interest>()
     private lateinit var adapter: InterestListAdapter
 
     /**
@@ -38,13 +38,20 @@ class InterestsActivity : BaseActivity(), RecyclerViewHelperInterface {
 
         CoroutineScope(Dispatchers.Main).launch {
             allInterests =
-                AppDatabase.getInstance(this@InterestsActivity).interestDao()
+                AppDatabase.getInstance(this@InterestsActivity)
+                    .interestDao()
                     .getAllInterests()
             adapter =
                 InterestListAdapter(
                     allInterests,
                     this@InterestsActivity,
                 )
+            adapter.select(
+                AppDatabase.getInstance(this@InterestsActivity)
+                    .accountInterestDao()
+                    .getUserInterests(Preferences.getUserId(this@InterestsActivity))
+                    .map { it.interestId },
+            )
             recyclerView.adapter = adapter
         }
 
@@ -53,7 +60,8 @@ class InterestsActivity : BaseActivity(), RecyclerViewHelperInterface {
                 val accountInterestDao = AppDatabase.getInstance(this@InterestsActivity).accountInterestDao()
                 val userId = Preferences.getUserId(this@InterestsActivity)
 
-                for (interest in selectedInterests) {
+                accountInterestDao.deleteUserInterests(userId)
+                for (interest in adapter.getSelected()) {
                     accountInterestDao.insertAll(
                         AccountInterest(
                             userId,
@@ -63,16 +71,22 @@ class InterestsActivity : BaseActivity(), RecyclerViewHelperInterface {
                 }
             }
             startActivity(Intent(this@InterestsActivity, MainActivity::class.java))
+            finish()
         }
     }
 
-    override fun onItemClicked(position: Int) {
-        if (selectedInterests.contains(allInterests[position])) {
-            adapter.setSelected(position, false)
-            selectedInterests.remove(allInterests[position])
-            return
+    /**
+     * Überschreibt den Zurück-Button um den User-Flow zu gewährleisten.
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
         }
-        adapter.setSelected(position, true)
-        selectedInterests.add(allInterests[position])
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onItemClicked(position: Int) {
+        adapter.toggle(position)
     }
 }

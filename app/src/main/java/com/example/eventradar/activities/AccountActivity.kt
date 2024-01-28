@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eventradar.R
 import com.example.eventradar.adapters.SimpleListAdapter
 import com.example.eventradar.data.SimpleListItem
-import com.example.eventradar.helpers.OutOfScopeDialog
 import com.example.eventradar.helpers.Preferences
 import com.example.eventradar.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -60,14 +59,20 @@ class AccountActivity : BaseActivity(), RecyclerViewHelperInterface {
      * Reagiert auf Klickereignisse in der Optionsliste.
      */
     override fun onItemClicked(position: Int) {
-        when (position) {
-            MY_DATA_ITEM -> startActivity(Intent(this, DataActivity::class.java))
-            MY_INTERESTS_ITEM -> OutOfScopeDialog.show(this)
-            PAYMENT_DETAILS_ITEM -> startActivity(Intent(this, PaymentDetailsActivity::class.java))
-            TRANSACTION_HISTORY_ITEM -> startActivity(Intent(this, TransactionHistoryActivity::class.java))
-            IMPRINT_ITEM -> startActivity(Intent(this, ImprintActivity::class.java))
-            PRIVACY_POLICY_ITEM -> startActivity(Intent(this, PrivacyPolicyActivity::class.java))
-        }
+        startActivity(
+            Intent(
+                this,
+                when (position) {
+                    MY_DATA_ITEM -> DataActivity::class.java
+                    MY_INTERESTS_ITEM -> InterestsActivity::class.java
+                    PAYMENT_DETAILS_ITEM -> PaymentDetailsActivity::class.java
+                    TRANSACTION_HISTORY_ITEM -> TransactionHistoryActivity::class.java
+                    IMPRINT_ITEM -> ImprintActivity::class.java
+                    PRIVACY_POLICY_ITEM -> PrivacyPolicyActivity::class.java
+                    else -> return
+                },
+            ),
+        )
     }
 
     companion object {
