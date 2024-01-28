@@ -1,15 +1,24 @@
 package com.example.eventradar.activities
 
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventradar.R
+import com.example.eventradar.adapters.ErrorAdapter
+import com.example.eventradar.adapters.LoadingAdapter
 import com.example.eventradar.adapters.SimpleListAdapter
+import com.example.eventradar.data.AppDatabase
 import com.example.eventradar.data.SimpleListItem
+import com.example.eventradar.data.entities.UserWithAccount
 import com.example.eventradar.helpers.OutOfScopeDialog
+import com.example.eventradar.helpers.Preferences
 import com.example.eventradar.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Aktivität für die Nutzerdaten.
@@ -24,31 +33,55 @@ class DataActivity : BaseActivity(), RecyclerViewHelperInterface {
 
         val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = LoadingAdapter()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val account =
+                AppDatabase.getInstance(this@DataActivity)
+                    .userDao()
+                    .get(Preferences.getUserId(this@DataActivity))
+
+            if (account != null) {
+                onAccountLoaded(recyclerView, account)
+            } else {
+                recyclerView.adapter = ErrorAdapter()
+            }
+        }
+
+        findViewById<Button>(R.id.delete).setOnClickListener {
+            onDeleteClicked()
+        }
+    }
+
+    private fun onAccountLoaded(
+        recyclerView: RecyclerView,
+        account: UserWithAccount,
+    ) {
         recyclerView.adapter =
             SimpleListAdapter(
                 listOf(
                     SimpleListItem(
-                        resources.getString(R.string.scope),
+                        account.user.name,
                         resources.getString(R.string.name),
                         R.drawable.ic_circle_person,
                     ),
                     SimpleListItem(
-                        resources.getString(R.string.scope),
+                        account.user.surname,
                         resources.getString(R.string.surname),
                         R.drawable.ic_circle_person,
                     ),
                     SimpleListItem(
-                        resources.getString(R.string.scope),
+                        DateFormat.getDateFormat(this).format(account.user.birthdate),
                         resources.getString(R.string.birthdate),
                         R.drawable.ic_circle_calendar_today,
                     ),
                     SimpleListItem(
-                        resources.getString(R.string.scope),
+                        account.account.eMail,
                         resources.getString(R.string.mail),
                         R.drawable.ic_circle_mail,
                     ),
                     SimpleListItem(
-                        resources.getString(R.string.scope),
+                        account.account.phone,
                         resources.getString(R.string.phone),
                         R.drawable.ic_circle_call,
                     ),
@@ -64,10 +97,6 @@ class DataActivity : BaseActivity(), RecyclerViewHelperInterface {
                 ),
                 this,
             )
-
-        findViewById<Button>(R.id.delete).setOnClickListener {
-            onDeleteClicked()
-        }
     }
 
     private fun onDeleteClicked() {
