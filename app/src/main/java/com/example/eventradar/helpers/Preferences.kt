@@ -20,10 +20,7 @@ object Preferences {
      * @param context Der Kontext der Anwendung.
      * @return True, wenn ein Benutzer angemeldet ist, andernfalls False.
      */
-    fun isLoggedIn(context: Context): Boolean =
-        PreferenceManager
-            .getDefaultSharedPreferences(context)
-            .getLong(ACCOUNT_ID, NO_ACCOUNT) != NO_ACCOUNT
+    fun isLoggedIn(context: Context): Boolean = getUserId(context) != NO_ACCOUNT
 
     /**
      * Legt fest, dass ein Benutzer angemeldet ist.
