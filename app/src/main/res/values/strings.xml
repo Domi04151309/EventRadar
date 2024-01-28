@@ -62,6 +62,10 @@
     <string name="logout">Abmelden</string>
     <string name="logout_summary">Sind Sie sich sicher, dass Sie sich abmelden möchten?</string>
 
+    <string name="delete_account">Account löschen</string>
+    <string name="delete_account_summary">Sind Sie sich sicher, dass Sie Ihren Account löschen möchten? Ihre Daten werden zum nächst möglichen Zeitpunkt gelöscht. Dies kann nach Löschung der Daten nicht rückgängig gemacht werden. Geben Sie Ihr Passwort zur Bestätigung ein.</string>
+    <string name="delete">Löschen</string>
+
     <string name="scope">Außerhalb des Umfangs</string>
     <string name="scope_summary">Die Funktion, welche Sie versuchen aufzurufen, liegt nicht im Implementierungsumfang.</string>
 
@@ -89,6 +93,9 @@
     <string name="forgot_password_message">Geben Sie Ihre E-Mail oder Ihre Handynummer ein. Falls ein Konto mit den angegebenen Daten existiert erhalten Sie eine Nachricht mit Schritten zum Zurücksetzen Ihres Passworts. </string>
     <string name="request">Anfordern</string>
 
+    <string name="edit_data_hint">Tippe auf eine Eigenschaft um sie zu ändern.</string>
+
+    <string name="password_placeholder">••••••••</string>
     <string name="currency_format">%1$s €</string>
     <string name="vat_format">%1$s inkl. MwSt.</string>
     <string name="summary_format">%1$s • %2$s</string>
