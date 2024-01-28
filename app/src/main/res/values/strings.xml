@@ -95,6 +95,14 @@
 
     <string name="edit_data_hint">Tippe auf eine Eigenschaft um sie zu ändern.</string>
 
+    <string name="card_number">Kartennummer</string>
+    <string name="month">Monat</string>
+    <string name="year">Jahr</string>
+    <string name="cvc">CVC</string>
+    <string name="delete_payment_details">Zahlungsdetails löschen</string>
+    <string name="delete_payment_details_message">Sind Sie sich sicher, dass Sie Ihre Zahlungsdetails löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="invalid">Ungültig</string>
+
     <string name="password_placeholder">••••••••</string>
     <string name="currency_format">%1$s €</string>
     <string name="vat_format">%1$s inkl. MwSt.</string>

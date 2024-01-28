@@ -21,3 +21,6 @@
 #-renamesourcefileattribute SourceFile
 
 -dontobfuscate
+
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.concurrent.GuardedBy

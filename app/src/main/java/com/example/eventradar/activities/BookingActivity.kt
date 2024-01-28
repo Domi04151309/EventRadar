@@ -12,7 +12,6 @@ import com.example.eventradar.data.AppDatabase
 import com.example.eventradar.data.SimpleListItem
 import com.example.eventradar.data.entities.Event
 import com.example.eventradar.data.entities.Ticket
-import com.example.eventradar.helpers.OutOfScopeDialog
 import com.example.eventradar.helpers.Preferences
 import com.example.eventradar.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -102,7 +101,7 @@ class BookingActivity : BaseActivity(), RecyclerViewHelperInterface {
      * Reagiert auf Klickereignisse in der Buchungsliste, insbesondere bei Auswahl von Zahlungsanbietern.
      */
     override fun onItemClicked(position: Int) {
-        if (position == PAYMENT_PROVIDER_ITEM) OutOfScopeDialog.show(this)
+        if (position == PAYMENT_PROVIDER_ITEM) startActivity(Intent(this, PaymentDetailsActivity::class.java))
     }
 
     companion object {
