@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.eventradar.data.entities.Event
+import com.example.eventradar.data.entities.EventWithAddress
 import com.example.eventradar.data.entities.EventWithAddressOrganizerReviews
 
 /**
@@ -12,6 +13,13 @@ import com.example.eventradar.data.entities.EventWithAddressOrganizerReviews
  */
 @Dao
 interface EventDao {
+    /**
+     * Holt alle Veranstaltungen mit Addresse aus der Datenbank.
+     */
+    @Transaction
+    @Query("SELECT * FROM event")
+    suspend fun getAll(): List<EventWithAddress>
+
     /**
      * Sucht nach einer Veranstaltung anhand ihrer ID und gibt diese zurück, falls vorhanden.
      */

@@ -2,6 +2,7 @@ package com.example.eventradar.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +14,19 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.example.eventradar.R
 import com.example.eventradar.activities.MainActivity
+import com.example.eventradar.data.AppDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import java.util.Locale
 
 /**
  * Fragment zur Darstellung einer interaktiven Karte für Veranstaltungsorte.
@@ -69,6 +76,24 @@ class MapFragment : Fragment() {
                 }
             },
         )
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+            for ((event, address) in AppDatabase.getInstance(requireContext()).eventDao().getAll()) {
+                geocoder.getFromLocationName(
+                    address.toString(resources),
+                    1,
+                )?.firstOrNull()?.let { location ->
+                    map.overlays.add(
+                        Marker(map).apply {
+                            position = GeoPoint(location.latitude, location.longitude)
+                            title = event.title
+                            icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_circle_local_activity)
+                        },
+                    )
+                }
+            }
+        }
 
         return root
     }
