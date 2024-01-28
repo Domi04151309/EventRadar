@@ -339,7 +339,6 @@ abstract class AppDatabase : RoomDatabase() {
                                     Base64.getFromAssets(context, "club_der.jpg"),
                                 ),
                             )
-
                             interestDao().insertAll(
                                 Interest("Kultur", Base64.getFromAssets(context, "kultur.jpg")),
                                 Interest("Tanzen", Base64.getFromAssets(context, "musicalm.jpg")),
@@ -403,6 +402,14 @@ abstract class AppDatabase : RoomDatabase() {
                                     "maxmustermann@gmx.de",
                                     "0800 897378423",
                                     BCrypt.hashpw("123456789", BCrypt.gensalt()),
+                                ),
+                            )
+                            userDao().insertAll(
+                                User(
+                                    1,
+                                    "Max",
+                                    "Mustermann",
+                                    0,
                                 ),
                             )
                             accountInterestDao().insertAll(
