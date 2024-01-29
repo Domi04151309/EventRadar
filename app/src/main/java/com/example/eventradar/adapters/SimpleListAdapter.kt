@@ -40,6 +40,12 @@ class SimpleListAdapter(
         holder: ViewHolder,
         position: Int,
     ) {
+        if (items[position].label.isEmpty()) {
+            holder.label.visibility = View.GONE
+        } else {
+            holder.label.visibility = View.VISIBLE
+            holder.label.text = items[position].label
+        }
         if (items[position].title.isEmpty()) {
             holder.title.visibility = View.GONE
         } else {
@@ -69,6 +75,11 @@ class SimpleListAdapter(
          * ImageView zur Anzeige eines Bildes.
          */
         val drawable: ImageView = view.findViewById(R.id.drawable)
+
+        /**
+         * TextView zur Anzeige des Labels.
+         */
+        val label: TextView = view.findViewById(R.id.label)
 
         /**
          * TextView zur Anzeige des Titels.
