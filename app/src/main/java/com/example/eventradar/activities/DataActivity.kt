@@ -1,8 +1,10 @@
 package com.example.eventradar.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eventradar.R
@@ -16,9 +18,11 @@ import com.example.eventradar.helpers.OutOfScopeDialog
 import com.example.eventradar.helpers.Preferences
 import com.example.eventradar.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.mindrot.jbcrypt.BCrypt
 
 /**
  * Aktivität für die Nutzerdaten.
@@ -100,17 +104,42 @@ class DataActivity : BaseActivity(), RecyclerViewHelperInterface {
     }
 
     private fun onDeleteClicked() {
+        val view =
+            layoutInflater.inflate(
+                R.layout.dialog_delete_account,
+                findViewById(R.id.root),
+                false,
+            )
         MaterialAlertDialogBuilder(this).setTitle(R.string.delete_account)
             .setMessage(R.string.delete_account_summary)
-            .setView(
-                layoutInflater.inflate(
-                    R.layout.dialog_delete_account,
-                    findViewById(R.id.root),
-                    false,
-                ),
-            )
+            .setView(view)
             .setPositiveButton(R.string.delete) { _, _ ->
-                OutOfScopeDialog.show(this)
+                CoroutineScope(Dispatchers.Main).launch {
+                    val input = view.findViewById<TextInputLayout>(R.id.password).editText?.text.toString()
+                    val accountDao = AppDatabase.getInstance(this@DataActivity).accountDao()
+                    val passwordHash =
+                        accountDao
+                            .get(Preferences.getUserId(this@DataActivity))
+                            ?.passwordHash
+                            ?: error("Invalid account id.")
+                    if (BCrypt.checkpw(input, passwordHash)) {
+                        accountDao.delete(Preferences.getUserId(this@DataActivity))
+                        Preferences.setLoggedIn(this@DataActivity, Preferences.NO_ACCOUNT)
+                        startActivity(Intent(this@DataActivity, LoginActivity::class.java))
+                        Toast.makeText(
+                            this@DataActivity,
+                            R.string.account_deleted,
+                            Toast.LENGTH_LONG,
+                        ).show()
+                        finish()
+                    } else {
+                        Toast.makeText(
+                            this@DataActivity,
+                            R.string.wrong_password,
+                            Toast.LENGTH_LONG,
+                        ).show()
+                    }
+                }
             }
             .setNegativeButton(R.string.cancel) { _, _ -> }
             .show()

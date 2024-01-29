@@ -3,6 +3,7 @@ package com.example.eventradar.data.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.example.eventradar.data.entities.User
 import com.example.eventradar.data.entities.UserWithAccount
 
@@ -14,6 +15,7 @@ interface UserDao {
     /**
      * Sucht nach einem User anhand der ID und gibt diesen zurück, falls vorhanden.
      */
+    @Transaction
     @Query("SELECT * FROM user WHERE account_id = :id LIMIT 1")
     suspend fun get(id: Long): UserWithAccount?
 

@@ -9,7 +9,7 @@
     <string name="title_interests">Interessen</string>
     <string name="title_register">Registrieren</string>
     <string name="title_login">Anmelden</string>
-    <string name="title_account">Mein Konto</string>
+    <string name="title_account">Mein Account</string>
 
     <string name="my_data">Meine Daten</string>
     <string name="my_interests">Meine Interessen</string>
@@ -67,6 +67,8 @@
     <string name="delete_account">Account löschen</string>
     <string name="delete_account_summary">Sind Sie sich sicher, dass Sie Ihren Account löschen möchten? Ihre Daten werden zum nächst möglichen Zeitpunkt gelöscht. Dies kann nach Löschung der Daten nicht rückgängig gemacht werden. Geben Sie Ihr Passwort zur Bestätigung ein.</string>
     <string name="delete">Löschen</string>
+    <string name="wrong_password">Falsches Passwort</string>
+    <string name="account_deleted">Account gelöscht</string>
 
     <string name="scope">Außerhalb des Umfangs</string>
     <string name="scope_summary">Die Funktion, welche Sie versuchen aufzurufen, liegt nicht im Implementierungsumfang.</string>
@@ -92,7 +94,7 @@
     <string name="reason">Grund</string>
 
     <string name="forgot_password">Passwort vergessen</string>
-    <string name="forgot_password_message">Geben Sie Ihre E-Mail oder Ihre Handynummer ein. Falls ein Konto mit den angegebenen Daten existiert erhalten Sie eine Nachricht mit Schritten zum Zurücksetzen Ihres Passworts. </string>
+    <string name="forgot_password_message">Geben Sie Ihre E-Mail oder Ihre Handynummer ein. Falls ein Account mit den angegebenen Daten existiert erhalten Sie eine Nachricht mit Schritten zum Zurücksetzen Ihres Passworts. </string>
     <string name="request">Anfordern</string>
 
     <string name="edit_data_hint">Tippe auf eine Eigenschaft um sie zu ändern.</string>
