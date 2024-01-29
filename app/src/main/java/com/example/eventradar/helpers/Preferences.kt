@@ -102,4 +102,16 @@ object Preferences {
             preferences.getString(PAYMENT_DETAILS_CVC, "") ?: "",
         )
     }
+
+    /**
+     * Überprüft ob Zahlungsinformationen gespeichert sind.
+     *
+     * @param context Der Kontext der Anwendung.
+     * @return Ob Zahlungsinformationen gespeichert sind.
+     */
+    fun hasPaymentDetails(context: Context): Boolean =
+        getEncryptedPreferences(context)
+            .getString(PAYMENT_DETAILS_CARD_NUMBER, "")
+            ?.isNotBlank()
+            ?: false
 }

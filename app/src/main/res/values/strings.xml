@@ -43,7 +43,9 @@
     <string name="booking_title">Titel das Events</string>
     <string name="booking_price">Preis inkl. MwSt.</string>
     <string name="booking_payment">Zahlungsmethode</string>
-    <string name="booking_payment_google">Google Pay</string>
+    <string name="booking_payment_card_number">••••%1$s</string>
+    <string name="booking_payment_missing">Keine Zahlungsmethode</string>
+    <string name="booking_payment_missing_message">Sie müssen eine Zahlungsmethode hinterlegen, um ein Ticket buchen zu können.</string>
     <string name="booking_info">Eine ausführliche Rechnung und das Ticket bekommst du im Anschluss per Mail zugesandt. Das Ticket ist auch jeder Zeit in der App abrufbar.</string>
     <string name="booking_fab">Kostenpflichtig bestellen</string>
 

@@ -14,7 +14,10 @@ import com.example.eventradar.interfaces.RecyclerViewHelperInterface
  * Ein RecyclerView-Adapter, der einfache Listenelemente mit Titel, Zusammenfassung und Icon anzeigt.
  */
 class SimpleListAdapter(
-    private val items: List<SimpleListItem>,
+    /**
+     * Die Listenelemente.
+     */
+    val items: List<SimpleListItem>,
     private val helperInterface: RecyclerViewHelperInterface,
 ) : RecyclerView.Adapter<SimpleListAdapter.ViewHolder>() {
     /**
