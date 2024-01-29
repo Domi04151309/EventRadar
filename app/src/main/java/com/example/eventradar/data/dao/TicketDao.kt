@@ -17,7 +17,7 @@ interface TicketDao {
      * Holt alle Tickets eines Benutzers mit den zugehörigen Veranstaltungsdaten.
      */
     @Transaction
-    @Query("SELECT * FROM ticket WHERE user_id = :userId")
+    @Query("SELECT * FROM ticket WHERE user_id = :userId ORDER BY purchased_at DESC")
     suspend fun getAll(userId: Long): List<TicketWithEvent>
 
     /**

@@ -35,4 +35,19 @@ data class TicketWithEvent(
             event.getSummary(resources),
             R.drawable.ic_circle_tag,
         )
+
+    /**
+     * Diese Methode konvertiert das TicketWithEvent-Objekt in ein SimpleListItem-Objekt für
+     * die Anzeige in einer RecyclerView.
+     *
+     * @param resources Die Ressourcen.
+     * @return Ein SimpleListItem-Objekt, das die Informationen der Transaktion enthält.
+     */
+    fun toTransactionHistoryItem(resources: Resources): SimpleListItem =
+        SimpleListItem(
+            event.getPriceAsString(resources),
+            event.title,
+            R.drawable.ic_square_credit_card,
+            ticket.getPurchasedAtAsString(),
+        )
 }

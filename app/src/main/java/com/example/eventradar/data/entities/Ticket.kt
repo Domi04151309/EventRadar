@@ -3,6 +3,8 @@ package com.example.eventradar.data.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 /**
  * Die Klasse Ticket repräsentiert ein Ticket in der Room-Datenbank.
@@ -23,4 +25,15 @@ class Ticket(
     @ColumnInfo(name = "ticket_id")
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
+
+    /**
+     * Gibt den Kaufzeitpunkt des Tickets als formatierten String zurück.
+     *
+     * @return Der formatierte Kaufzeitpunkt.
+     */
+    fun getPurchasedAtAsString(): String =
+        SimpleDateFormat(
+            "d. MMM yyyy",
+            Locale.getDefault(),
+        ).format(purchasedAt)
 }
