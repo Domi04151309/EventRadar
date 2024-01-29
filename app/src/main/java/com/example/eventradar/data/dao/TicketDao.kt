@@ -17,7 +17,7 @@ interface TicketDao {
      * Holt alle Tickets eines Benutzers mit den zugehörigen Veranstaltungsdaten.
      */
     @Transaction
-    @Query("SELECT * FROM ticket WHERE user_id = :userId ORDER BY purchased_at DESC")
+    @Query("SELECT * FROM ticket WHERE user_id = :userId AND is_deleted = 0 ORDER BY purchased_at DESC")
     suspend fun getAll(userId: Long): List<TicketWithEvent>
 
     /**
@@ -29,6 +29,12 @@ interface TicketDao {
         id: Long,
         userId: Long,
     ): TicketWithEventWithAddress?
+
+    /**
+     * Markiert ein Ticket anhand der ID zur Löschung.
+     */
+    @Query("UPDATE ticket SET is_deleted = 1 WHERE ticket_id = :id")
+    suspend fun delete(id: Long)
 
     /**
      * Fügt einen oder mehrere Ticketdatensätze in die Datenbank ein.

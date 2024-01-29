@@ -12,12 +12,14 @@ import java.util.Locale
  * @property eventId Die ID des zugehörigen Events.
  * @property userId Die ID des Benutzers, der das Ticket gekauft hat.
  * @property purchasedAt Der Zeitpunkt, zu dem das Ticket gekauft wurde.
+ * @property isDeleted Ob das Ticket zur Löschung markiert wurde.
  */
 @Entity(tableName = "ticket")
 class Ticket(
     @ColumnInfo(name = "event_id") val eventId: Long,
     @ColumnInfo(name = "user_id") val userId: Long,
     @ColumnInfo(name = "purchased_at") val purchasedAt: Long,
+    @ColumnInfo(name = "is_deleted") val isDeleted: Boolean = false,
 ) {
     /**
      * Die eindeutige ID des Tickets in der Datenbank.

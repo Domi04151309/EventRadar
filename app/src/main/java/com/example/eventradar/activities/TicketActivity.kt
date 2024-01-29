@@ -13,7 +13,6 @@ import com.example.eventradar.data.AppDatabase
 import com.example.eventradar.data.SimpleListItem
 import com.example.eventradar.data.entities.TicketWithEventWithAddress
 import com.example.eventradar.helpers.External
-import com.example.eventradar.helpers.OutOfScopeDialog
 import com.example.eventradar.helpers.Preferences
 import com.example.eventradar.interfaces.RecyclerViewHelperInterface
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -39,12 +38,7 @@ class TicketActivity : BaseActivity(), RecyclerViewHelperInterface {
             this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    startActivity(
-                        Intent(this@TicketActivity, MainActivity::class.java).apply {
-                            action = "com.example.eventradar.SHOW_TICKETS"
-                        },
-                    )
-                    finish()
+                    goBack()
                 }
             },
         )
@@ -95,6 +89,15 @@ class TicketActivity : BaseActivity(), RecyclerViewHelperInterface {
         }
     }
 
+    private fun goBack() {
+        startActivity(
+            Intent(this, MainActivity::class.java).apply {
+                action = "com.example.eventradar.SHOW_TICKETS"
+            },
+        )
+        finish()
+    }
+
     /**
      * Reagiert auf Klickereignisse in der Ticketliste, insbesondere bei Auswahl der Stornierungsoption.
      */
@@ -106,7 +109,13 @@ class TicketActivity : BaseActivity(), RecyclerViewHelperInterface {
                     .setMessage(R.string.cancellation_message)
                     .setView(layoutInflater.inflate(R.layout.dialog_cancel, recyclerView, false))
                     .setPositiveButton(R.string.cancellation) { _, _ ->
-                        OutOfScopeDialog.show(this)
+                        CoroutineScope(Dispatchers.Main).launch {
+                            // Der Grund der Stornierung wird noch nicht gespeichert.
+                            AppDatabase.getInstance(this@TicketActivity)
+                                .ticketDao()
+                                .delete(ticket?.ticket?.id ?: error(TICKET_IS_NULL))
+                            goBack()
+                        }
                     }
                     .setNegativeButton(R.string.cancel) { _, _ -> }
                     .show()
